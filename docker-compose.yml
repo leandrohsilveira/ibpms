@@ -5,7 +5,7 @@ volumes:
 
 services:
   backend:
-    image: leandrohsilveira/kikaha-server
+    image: leandrohsilveira/kikaha-server:1.0
     volumes:
       - ./backend:/home/kikaha
       - mvn-cache:/root/.m2
