@@ -9,7 +9,8 @@ services:
     volumes:
       - ./backend:/home/kikaha
       - mvn-cache:/root/.m2
-    command: bash --login -c "kikaha run_app ibpms"
+    environment:
+      - MODULE_NAME=ibpms
 
   frontend:
     image: nginx:1.15.7-alpine
