@@ -1,0 +1,27 @@
+version: "3"
+
+volumes:
+  mvn-cache:
+
+services:
+  backend:
+    image: leandrohsilveira/kikaha-server
+    volumes:
+      - ./backend:/home/kikaha
+      - mvn-cache:/root/.m2
+    command: bash --login -c "kikaha run_app ibpms"
+
+  frontend:
+    image: nginx:1.15.7-alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+  
+  proxy:
+    image: nginx:1.15.7-alpine
+    volumes:
+      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - frontend
