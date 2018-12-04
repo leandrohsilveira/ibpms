@@ -1,5 +1,7 @@
 FROM leandrohsilveira/kikaha-cli
 
+RUN apt-get install -y gettext
+
 ENV MODULE_NAME=app
 ENV SERVER_HTTP_PORT=9000
 ENV SERVER_HTTPS_PORT=9001
