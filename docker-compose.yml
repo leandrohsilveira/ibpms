@@ -13,7 +13,7 @@ services:
     image: postgres:11.1-alpine
     volumes:
       - backend-database-data:/var/lib/postgresql/data
-      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
     environment:
@@ -30,7 +30,6 @@ services:
       - database_network
       - proxy_network
     environment:
-      - MODULE_NAME=ibpms
       - BACKEND_DATABASE_DOMAIN=${BACKEND_DATABASE_DOMAIN}
       - BACKEND_DATABASE_PORT=${BACKEND_DATABASE_PORT}
       - BACKEND_DATABASE_NAME=${BACKEND_DATABASE_NAME}
@@ -38,7 +37,7 @@ services:
       - BACKEND_DATABASE_PASSWORD=${BACKEND_DATABASE_PASSWORD}
     depends_on:
       - backend-database
-    command: bash --login -c "envsubst < ./ibpms/env.template.yml > ./ibpms/env.yml && kikaha run_app $${MODULE_NAME}"
+    command: bash --login -c "envsubst < ./ibpms/env.template.yml > ./ibpms/env.yml && kikaha run_app ibpms"
 
   frontend:
     image: nginx:1.15.7-alpine
