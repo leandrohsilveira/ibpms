@@ -19,6 +19,17 @@ public class ProductService extends ModelService<Product> {
 
 	private static final long serialVersionUID = -9176173448022189383L;
 	
+	public UUID create(Product product) {
+		return withCommitableConnection(connection -> {
+			UUID uuid = UUID.randomUUID();
+			PreparedStatement preparedStatement = connection.prepareStatement("insert into product (uuid, name, price) values (?, ?, ?)");
+			List<Object> params = Arrays.asList(uuid.toString(), product.getName(), product.getPrice());
+			setParamsToStatements(params, preparedStatement);
+			preparedStatement.execute();
+			return uuid;
+		});
+	}
+	
 	public Optional<Product> findOne(UUID uuid) {
 		return withConnection(connection -> {
 			String searchQuery = "select uuid, name, price from product where uuid = ?";
