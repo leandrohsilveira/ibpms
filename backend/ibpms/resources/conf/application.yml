@@ -1,17 +1,27 @@
 server:
-  
+  db:
+    datasources:
+      default:
+        #log-query-execution-longer-than-ms: 20
+        # log-stacktrace-for-long-query-execution: false
+        jdbc-url: "jdbc:postgresql://localhost:5432/ibpms_db"
+        username: "ibpms"
+        password: "p@5zw0rd"
+
   static:
     enabled: false
 
   urouting:
     default-content-type: "application/json"
 
-  auth:
+
+
+  #auth:
     # security-context-factory: kikaha.hazelcast.HazelcastSecurityContextFactory
     # security-context-factory: kikaha.core.modules.security.RESTAPISecurityContextFactory
 
     # Configuration for fixed-user-and-pass Identity Manager
-    fixed-auth:
-      username: "admin"
-      password: "admin"
+    #fixed-auth:
+    #  username: "admin"
+    #  password: "admin"
 
