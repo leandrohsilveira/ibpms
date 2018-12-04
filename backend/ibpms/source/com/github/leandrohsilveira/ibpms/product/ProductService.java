@@ -21,7 +21,7 @@ public class ProductService extends ModelService<Product> {
 	
 	public Optional<Product> findOne(UUID uuid) {
 		return withConnection(connection -> {
-			String searchQuery = "select uuid, name, price from ibpms.product where uuid = ?";
+			String searchQuery = "select uuid, name, price from product where uuid = ?";
 			PreparedStatement statement = connection.prepareStatement(searchQuery);
 			statement.setString(0, uuid.toString());
 			return getSingleResult(statement);
@@ -30,12 +30,17 @@ public class ProductService extends ModelService<Product> {
 
 	public SearchResult<Product> search(ProductSearch search) {
 		return withConnection(connection -> {
-			String where = "where (? is null or uuid like %?%) and (? is null or upper(name) like %?%)";
+			String where = "where (? is null or upper(uuid) like ?) and (? is null or upper(name) like ?)";
 			
-			String searchProjection = "select uuid, name, price from ibpms.product";
-			String countProjection = "select count(uuid) from ibpms.product";
+			String searchProjection = "select uuid, name, price from product";
+			String countProjection = "select count(uuid) from product";
 			
-			List<Object> params = Arrays.asList(search.getUuid(), search.getUuid(), search.getName(), search.getName());
+			List<Object> params = Arrays.asList(
+				QueryUtils.likeContainsUppercase(search.getUuid()), 
+				QueryUtils.likeContainsUppercase(search.getUuid()), 
+				QueryUtils.likeContainsUppercase(search.getName()), 
+				QueryUtils.likeContainsUppercase(search.getName())
+			);
 			
 			PreparedStatement searchStatement = connection.prepareStatement(QueryUtils.buildQuery(searchProjection, where, search.getPagination(), search.getSort()));
 			PreparedStatement countStatement = connection.prepareStatement(QueryUtils.buildQuery(countProjection, where, null, null));

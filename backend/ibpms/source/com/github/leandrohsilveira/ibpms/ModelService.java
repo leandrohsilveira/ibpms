@@ -44,7 +44,7 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	protected Long getCountResult(PreparedStatement statement) throws SQLException {
 		ResultSet resultSet = statement.executeQuery();
 		if(resultSet.next()) {
-			resultSet.getLong(0);
+			resultSet.getLong(1);
 		}
 		return 0l;
 	}
