@@ -28,7 +28,7 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	protected void setParamsToStatements(List<Object> params, PreparedStatement... statements) throws SQLException {
 		for (PreparedStatement statement : Arrays.asList(statements)) {
 			for(int i = 0; i < params.size(); i++) {
-				statement.setObject(i, params.get(i));
+				statement.setObject(i+1, params.get(i));
 			}
 		}
 	}
