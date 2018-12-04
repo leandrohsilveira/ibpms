@@ -34,7 +34,7 @@ public class ProductService extends ModelService<Product> {
 		return withConnection(connection -> {
 			String searchQuery = "select uuid, name, price from product where uuid = ?";
 			PreparedStatement statement = connection.prepareStatement(searchQuery);
-			statement.setString(0, uuid.toString());
+			setParamsToStatements(Arrays.asList(uuid.toString()), statement);
 			return getSingleResult(statement);
 		});
 	}
