@@ -16,27 +16,45 @@ public final class QueryUtils {
 	}
 	
 	public static String likeStartsWith(String value) {
-		return String.format("%%%s", value);
+		if(value != null) {
+			return String.format("%%%s", value);
+		}
+		return null;
 	}
 	
 	public static String likeEndsWith(String value) {
-		return String.format("%s%%", value);
+		if(value != null) {
+			return String.format("%s%%", value);
+		}
+		return null;
 	}
 	
 	public static String likeContains(String value) {
-		return String.format("%%%s%%", value);
+		if(value != null) {
+			return String.format("%%%s%%", value);
+		}
+		return null;
 	}
 
 	public static Object likeStartsUppercaseWith(String value) {
-		return likeStartsWith(value).toUpperCase();
+		if(value != null) {
+			return likeStartsWith(value).toUpperCase();
+		}
+		return null;
 	}
 
 	public static Object likeEndsUppercaseWith(String value) {
-		return likeEndsWith(value).toUpperCase();
+		if(value != null) {
+			return likeEndsWith(value).toUpperCase();
+		}
+		return null;
 	}
 
 	public static Object likeContainsUppercase(String value) {
-		return likeContains(value).toUpperCase();
+		if(value != null) {
+			return likeContains(value).toUpperCase();
+		}
+		return null;
 	}
 	
 }

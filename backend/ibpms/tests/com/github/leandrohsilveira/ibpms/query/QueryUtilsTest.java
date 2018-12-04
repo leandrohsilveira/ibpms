@@ -1,6 +1,7 @@
 package com.github.leandrohsilveira.ibpms.query;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -61,6 +62,36 @@ public class QueryUtilsTest {
 	@Test
 	public void likeContainsUppercaseTest() {
 		assertEquals("%TEST%", QueryUtils.likeContainsUppercase("Test"));
+	}
+	
+	@Test
+	public void nullLikeStartsWithTest() {
+		assertNull(QueryUtils.likeStartsWith(null));
+	}
+	
+	@Test
+	public void nullLikeEndsWithTest() {
+		assertNull(QueryUtils.likeEndsWith(null));
+	}
+	
+	@Test
+	public void nullLikeContainsTest() {
+		assertNull(QueryUtils.likeContains(null));
+	}
+	
+	@Test
+	public void nullLikeStartsWithUppercaseTest() {
+		assertNull(QueryUtils.likeStartsUppercaseWith(null));
+	}
+	
+	@Test
+	public void nullLikeEndsWithUppercaseTest() {
+		assertNull(QueryUtils.likeEndsUppercaseWith(null));
+	}
+	
+	@Test
+	public void nullLikeContainsUppercaseTest() {
+		assertNull(QueryUtils.likeContainsUppercase(null));
 	}
 	
 }

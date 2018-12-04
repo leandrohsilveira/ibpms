@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,9 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	protected void setParamsToStatements(List<Object> params, PreparedStatement... statements) throws SQLException {
 		for (PreparedStatement statement : Arrays.asList(statements)) {
 			for(int i = 0; i < params.size(); i++) {
-				statement.setObject(i+1, params.get(i));
+				Object value = params.get(i);
+				if(value != null) statement.setObject(i + 1, value);
+				else statement.setNull(i + 1, Types.VARCHAR);
 			}
 		}
 	}
