@@ -33,4 +33,34 @@ public class QueryUtilsTest {
 		assertEquals("select name from ibpms.product where name like %?% offset 0 limit 10 order by name asc", query);
 	}
 	
+	@Test
+	public void likeStartsWithTest() {
+		assertEquals("%Test", QueryUtils.likeStartsWith("Test"));
+	}
+	
+	@Test
+	public void likeEndsWithTest() {
+		assertEquals("Test%", QueryUtils.likeEndsWith("Test"));
+	}
+	
+	@Test
+	public void likeContainsTest() {
+		assertEquals("%Test%", QueryUtils.likeContains("Test"));
+	}
+	
+	@Test
+	public void likeStartsWithUppercaseTest() {
+		assertEquals("%TEST", QueryUtils.likeStartsUppercaseWith("Test"));
+	}
+	
+	@Test
+	public void likeEndsWithUppercaseTest() {
+		assertEquals("TEST%", QueryUtils.likeEndsUppercaseWith("Test"));
+	}
+	
+	@Test
+	public void likeContainsUppercaseTest() {
+		assertEquals("%TEST%", QueryUtils.likeContainsUppercase("Test"));
+	}
+	
 }
