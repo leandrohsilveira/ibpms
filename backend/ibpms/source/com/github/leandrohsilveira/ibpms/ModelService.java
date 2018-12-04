@@ -62,7 +62,9 @@ public abstract class ModelService<T extends Model> implements Serializable {
 		return withConnection(connection -> {
 			try {
 				R result = managedConnectionFunction.applyWhenConnected(connection);
-				connection.commit();
+				if(!connection.getAutoCommit()) {
+					connection.commit();
+				}
 				return result;
 			} catch (Exception e) {
 				rollback(connection);
@@ -83,7 +85,9 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	private void rollback(Connection connection) {
 		try {
 			log.warn("Rolling back connection {}", connection);
-			connection.rollback();
+			if(!connection.getAutoCommit()) {
+				connection.rollback();
+			}
 			log.warn("Connection {} rolled back", connection);
 		} catch (SQLException e) {
 			log.error("Failed to rollback: {}", e.getMessage(), e);
