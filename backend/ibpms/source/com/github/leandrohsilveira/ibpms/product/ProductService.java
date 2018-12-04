@@ -44,7 +44,7 @@ public class ProductService extends ModelService<Product> {
 			String where = "where (? is null or upper(uuid) like ?) and (? is null or upper(name) like ?)";
 			
 			String searchProjection = "select uuid, name, price from product";
-			String countProjection = "select count(uuid) from product";
+			String countProjection = "select count(uuid) as count from product";
 			
 			List<Object> params = Arrays.asList(
 				QueryUtils.likeContainsUppercase(search.getUuid()), 
@@ -58,7 +58,7 @@ public class ProductService extends ModelService<Product> {
 			
 			setParamsToStatements(params, searchStatement, countStatement);
 			
-			return new SearchResult<>(getResultList(searchStatement), getCountResult(countStatement));
+			return new SearchResult<>(getResultList(searchStatement), getCountResult(countStatement, "count"));
 		});
 	}
 
