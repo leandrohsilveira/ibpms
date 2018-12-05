@@ -33,6 +33,10 @@ O projeto é constituido das camadas:
 
 Para permitir a configuração das propriedades do Kikaha, foi implementado um config enrichment para ler configurações do arquivo `/home/kikaha/ibpms/env.yml`, que é produzido pelo container a partir do arquivo de template `/home/kikaha/ibpms/env.template.yml` utilizando a ferramenta [envsubst](https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html) para substituir expressões de variáveis de ambiente.
 
+### Documentação da API
+
+Foi publicada uma documentação da API REST através do Postman, para acessá-la, clique [aqui](https://documenter.getpostman.com/view/125286/RzffLqYR).
+
 ## Frontend
 
 Foi utilizado o [Riot.JS](https://riot.js.org/) para construir a aplicação do tipo Single Page App e o [Milligram](https://milligram.io/) para estilização básica do layout.
@@ -47,7 +51,3 @@ O diretório **frontend/public** é mapeado para dentro do container do frontend
 O proxy atua roteando as rotas da seguinte maneira:
 * Requisições para **/api/\*** é mapeado para o **backend** no caminho **/\***
 * Requisições para **/\*** é mapeado para o **frontend** no caminho **/\***
-
-# API docs
-
-https://documenter.getpostman.com/view/125286/RzffLqYR
