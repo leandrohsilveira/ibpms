@@ -3,7 +3,13 @@
     <div class="app-paginator">
         <button disabled={opts.page < 3} onclick={first} class="button button-clear">{"<<"}</button>
         <button disabled={opts.page === 1} onclick={previous} class="button button-clear">{"<"}</button>
-        <button class={parent.getButtonClasses(page)} each={page in pages} onclick={this.parent.changePage}>{page}</button>
+        <button 
+            class={parent.getButtonClasses(page)} 
+            each={page in pages} 
+            disabled={page === opts.page}
+            onclick={this.parent.changePage}>
+            {page}
+        </button>
         <button disabled={opts.page >= totalPages} onclick={next} class="button button-clear">{">"}</button>
         <button disabled={opts.page >= (totalPages - 1)} onclick={last} class="button button-clear">{">>"}</button>
         <select name="size" onchange={changeSize}>

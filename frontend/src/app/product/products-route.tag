@@ -67,10 +67,10 @@
             this.search.update(obj);
         }
 
-        this.on('before-mount', () => this.search.on('updated', this.searchUpdated));
-        this.on('unmount', () => this.search.off('updated', this.searchUpdated));
+        this.on('before-mount', () => this.search.on('updated', this.fetchProducts));
+        this.on('unmount', () => this.search.off('updated', this.fetchProducts));
 
-        this.searchUpdated = () => {
+        this.fetchProducts = () => {
             this.update({loading: true});
             fetch(`/api/products?${this.search.getQueryString()}`)
                 .then(response => {
@@ -84,12 +84,7 @@
         };
 
         this.on('route', () => {
-            const q = route.query();
-            this.search.update({
-                page: q.page && +q.page,
-                size: q.size && +q.size,
-                sort: q.sort
-            })
+            this.fetchProducts();
         });
 
     </script>
