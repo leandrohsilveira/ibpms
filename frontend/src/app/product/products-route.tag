@@ -1,7 +1,7 @@
 <app-products-route>
 
     <h2>Produtos</h2>
-    
+    <button type="button" onclick={create}>Cadastrar produto</button>
     <app-products-filter onfilter={filter} />
     <app-products if={!loading} products={products} />
     <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
@@ -69,6 +69,10 @@
 
         this.on('before-mount', () => this.search.on('updated', this.fetchProducts));
         this.on('unmount', () => this.search.off('updated', this.fetchProducts));
+
+        this.create = () => {
+            route('/create');
+        };
 
         this.fetchProducts = () => {
             this.update({loading: true});

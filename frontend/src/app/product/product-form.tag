@@ -16,7 +16,7 @@
 
             <div class="buttons">
                 <button type="submit">{opts.product ? 'Atualizar' : 'Cadastrar'}</button>
-                <button type="button" onclick={cancelar} class="button button-clear">Cancelar</button>
+                <button type="button" onclick={cancel} class="button button-clear">Cancelar</button>
             </div>
         </fieldset>
     </form>
@@ -55,9 +55,9 @@
             }
         };
 
-        this.cancelar = () => {
-            if(typeof opts.oncancelar === 'function') {
-                opts.oncancelar();
+        this.cancel = () => {
+            if(typeof opts.oncancel === 'function') {
+                opts.oncancel();
             }
         };
 
