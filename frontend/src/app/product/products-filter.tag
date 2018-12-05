@@ -1,6 +1,5 @@
 <app-products-filter>
     <form onsubmit={ filter }>
-        <h3>Filtrar</h3>
         <div class="row">
             <div class="column">
                 <label for="name">ID</label>
