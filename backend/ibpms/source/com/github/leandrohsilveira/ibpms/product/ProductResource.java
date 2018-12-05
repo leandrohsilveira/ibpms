@@ -10,6 +10,7 @@ import com.github.leandrohsilveira.ibpms.query.SearchResult;
 import com.github.leandrohsilveira.ibpms.query.Sort;
 
 import kikaha.urouting.api.Consumes;
+import kikaha.urouting.api.DELETE;
 import kikaha.urouting.api.DefaultResponse;
 import kikaha.urouting.api.GET;
 import kikaha.urouting.api.Mimes;
@@ -42,6 +43,16 @@ public class ProductResource {
 	@Path("{uuid}")
 	public Product findOne(@PathParam("uuid") String uuid) {
 		return productService.findOne(UUID.fromString(uuid)).orElse(null);
+	}
+	
+	@DELETE
+	@Path("{uuid}")
+	public Response delete(@PathParam("uuid") String uuid) {
+		if(productService.delete(UUID.fromString(uuid))) {
+			return DefaultResponse.noContent();
+		} else {
+			return DefaultResponse.notFound();
+		}
 	}
 	
 	@PATCH
