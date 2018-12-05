@@ -1,4 +1,4 @@
-package com.github.leandrohsilveira.ibpms;
+package com.github.leandrohsilveira.ibpms.config;
 
 import java.io.File;
 import java.io.IOException;
