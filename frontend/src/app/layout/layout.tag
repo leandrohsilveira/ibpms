@@ -14,30 +14,30 @@
 
     <style>
 
-        .header * {
+        :scope .header * {
             box-sizing: border-box;
         }
 
-        .header {
+        :scope .header {
             width: 100%;
-            padding: 10px 0;
+            padding: 20px 0;
             -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
             -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
             box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
         }
 
-        .header > .container {
+        :scope .header > .container {
             display: flex;
             align-items: center;
         }
 
-        .header > .container > h1 {
+        :scope .header > .container > h1 {
             margin: 0 10px;
             padding: 0;
         }
 
-        .content {
-            margin-top: 10px;
+        :scope .content {
+            margin-top: 20px;
         }
 
     </style>
