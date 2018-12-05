@@ -4,6 +4,7 @@
     
     <app-products-filter onfilter={filter} />
     <app-products if={!loading} products={products} />
+    <app-paginator if={!loading} page={search.page} count={100} size={10} onchange={changePage} />
     <loading class="loading" if={loading} />
 
     <style>
@@ -38,7 +39,6 @@
             this.filter = {};
             
             this.update = (newState) => {
-                console.log(newState);
                 this.trigger('update', newState);
                 Object.keys(newState).forEach(key => {
                     if(newState[key] !== undefined) this[key] = newState[key];
@@ -63,6 +63,7 @@
         }
 
         this.products = [];
+        this.count = 0;
         this.loading = true;
         this.search = new SearchObservable(1, 10, 'name,asc');
 
@@ -75,24 +76,33 @@
             });
         }
 
-        this.search.on('updated', () => {
+        this.changePage = (obj) => {
+            this.search.update({
+                page: obj.page
+            });
+        }
+
+        this.on('before-mount', () => this.search.on('updated', this.searchUpdated));
+        this.on('unmount', () => this.search.off('updated', this.searchUpdated));
+
+        this.searchUpdated = () => {
             this.update({loading: true});
             fetch(`/api/products?${this.search.getQueryString()}`)
                 .then(response => {
                     return response.json().then(({items:products, count}) => {
-                        this.update({products});
+                        this.update({products, count});
                     });
                 })
                 .finally(() => {
                     this.update({loading: false});
                 })
-        });
+        };
 
         this.on('route', () => {
             const q = route.query();
             this.search.update({
-                page: q.page,
-                size: q.size,
+                page: q.page && +q.page,
+                size: q.size && +q.size,
                 sort: q.sort
             })
         });
