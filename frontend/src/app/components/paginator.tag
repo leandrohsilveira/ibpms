@@ -1,17 +1,30 @@
 <app-paginator> 
     
     <div class="app-paginator">
-        <button disabled={opts.page < 3} class="button button-clear">{"<<"}</button>
-        <button disabled={opts.page === 1} class="button button-clear">{"<"}</button>
+        <button disabled={opts.page < 3} onclick={first} class="button button-clear">{"<<"}</button>
+        <button disabled={opts.page === 1} onclick={previous} class="button button-clear">{"<"}</button>
         <button class={parent.getButtonClasses(page)} each={page in pages} onclick={this.parent.changePage}>{page}</button>
-        <button disabled={opts.page >= totalPages} class="button button-clear">{">"}</button>
-        <button disabled={opts.page >= (totalPages - 1)} class="button button-clear">{">>"}</button>
+        <button disabled={opts.page >= totalPages} onclick={next} class="button button-clear">{">"}</button>
+        <button disabled={opts.page >= (totalPages - 1)} onclick={last} class="button button-clear">{">>"}</button>
+        <select name="size" onchange={changeSize}>
+            <option selected={opts.size === 5} value={5}>5 itens por página</option>
+            <option selected={opts.size === 10} value={10}>10 itens por página</option>
+            <option selected={opts.size === 15} value={15}>15 itens por página</option>
+            <option selected={opts.size === 30} value={30}>30 itens por página</option>
+            <option selected={opts.size === 50} value={50}>50 itens por página</option>
+        </select>
     </div>
 
     <style>
         :scope .button {
             padding: 0 15px;
         }
+
+        @media (min-width: 40.0rem) { 
+            :scope select {
+                width: 180px;
+            }
+         }
     </style>
 
     <script>
@@ -31,8 +44,30 @@
             this.calculate();
         });
 
+        this.first = (e) => {
+            opts.onpaginationchange({page: 1});
+        };
+
+        this.last = (e) => {
+            opts.onpaginationchange({page: this.totalPages});
+        };
+
+        this.previous = (e) => {
+            opts.onpaginationchange({page: opts.page - 1});
+        };
+
+        this.next = (e) => {
+            opts.onpaginationchange({page: opts.page + 1});
+        };
+
         this.changePage = (e) => {
-            opts.onchange(e.item);
+            opts.onpaginationchange(e.item);
+        };
+
+        this.changeSize = (e) => {
+            opts.onpaginationchange({
+                size: +e.target.value
+            });
         };
 
         this.calculate = () => {

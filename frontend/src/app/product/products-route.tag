@@ -4,27 +4,16 @@
     
     <app-products-filter onfilter={filter} />
     <app-products if={!loading} products={products} />
-    <app-paginator if={!loading} page={search.page} count={100} size={10} onchange={changePage} />
+    <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
     <loading class="loading" if={loading} />
 
     <style>
-        .loading {
+        :scope .loading {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
-        .buttons {
-            width: 100%;
-            display: flex;
-            flex-direction: row-reverse;
-        }
-
-        .buttons > button:not(:first-child) {
-            margin-right: 5px;
-        }
-
     </style>
 
     <script>
@@ -76,10 +65,8 @@
             });
         }
 
-        this.changePage = (obj) => {
-            this.search.update({
-                page: obj.page
-            });
+        this.handlePaginationChange = (obj) => {
+            this.search.update(obj);
         }
 
         this.on('before-mount', () => this.search.on('updated', this.searchUpdated));
