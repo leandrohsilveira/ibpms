@@ -13,6 +13,7 @@ import kikaha.urouting.api.Consumes;
 import kikaha.urouting.api.DefaultResponse;
 import kikaha.urouting.api.GET;
 import kikaha.urouting.api.Mimes;
+import kikaha.urouting.api.PATCH;
 import kikaha.urouting.api.POST;
 import kikaha.urouting.api.Path;
 import kikaha.urouting.api.PathParam;
@@ -39,8 +40,15 @@ public class ProductResource {
 
 	@GET
 	@Path("{uuid}")
-	public Product find(@PathParam("uuid") String uuid) {
+	public Product findOne(@PathParam("uuid") String uuid) {
 		return productService.findOne(UUID.fromString(uuid)).orElse(null);
+	}
+	
+	@PATCH
+	@Path("{uuid}")
+	@Consumes(Mimes.JSON)
+	public Product update(@PathParam("uuid") String uuid, Product product) {
+		return productService.update(UUID.fromString(uuid), product).orElse(null);
 	}
 	
 	@POST

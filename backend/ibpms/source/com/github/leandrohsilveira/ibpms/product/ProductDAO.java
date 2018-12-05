@@ -66,12 +66,10 @@ public class ProductDAO extends DAO<Product> {
 			Stream<String> whereParams = Arrays.asList(uuid.toString()).stream();
 			List<Object> params = Stream.concat(updateParams, whereParams).collect(Collectors.toList());
 			setParamsToStatements(params, statement);
-			int updated = statement.executeUpdate();
-			if(updated > 0) {
-				return findOne(uuid);
-			}
+			statement.executeUpdate();
+			return findOne(uuid);
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 	public Optional<Product> findOne(UUID uuid) throws SQLException {
