@@ -1,5 +1,6 @@
 package com.github.leandrohsilveira.ibpms.product;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -41,25 +42,28 @@ public class ProductResource {
 
 	@GET
 	@Path("{uuid}")
-	public Product findOne(@PathParam("uuid") String uuid) {
-		return productService.findOne(UUID.fromString(uuid)).orElse(null);
+	public Response findOne(@PathParam("uuid") String uuid) {
+		return productService.findOne(UUID.fromString(uuid)) //
+						.map(DefaultResponse::ok) //
+						.orElseGet(DefaultResponse::notFound);
 	}
 	
 	@DELETE
 	@Path("{uuid}")
 	public Response delete(@PathParam("uuid") String uuid) {
-		if(productService.delete(UUID.fromString(uuid))) {
-			return DefaultResponse.noContent();
-		} else {
-			return DefaultResponse.notFound();
-		}
+		return Optional.of(UUID.fromString(uuid))
+				.filter(productService::delete)
+				.map(i -> DefaultResponse.noContent())
+				.orElseGet(DefaultResponse::notFound);
 	}
 	
 	@PATCH
 	@Path("{uuid}")
 	@Consumes(Mimes.JSON)
-	public Product update(@PathParam("uuid") String uuid, Product product) {
-		return productService.update(UUID.fromString(uuid), product).orElse(null);
+	public Response update(@PathParam("uuid") String uuid, Product product) {
+		return productService.update(UUID.fromString(uuid), product) //
+					.map(DefaultResponse::ok) //
+					.orElseGet(DefaultResponse::notFound);
 	}
 	
 	@POST
