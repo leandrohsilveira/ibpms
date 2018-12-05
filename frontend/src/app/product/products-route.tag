@@ -6,8 +6,12 @@
     <script>
         this.products = [];
 
-        this.on('mount', () => {
-            fetch('/api/products?page=1&size=10&sort=name,asc')
+        this.on('route', () => {
+            const q = route.query();
+            const page = +q.page || 1;
+            const size = +q.size || 10;
+            const sort = q.sort || 'name,asc';
+            fetch(`/api/products?page=${page}&size=${size}&sort=${sort}`)
                 .then(response => {
                     return response.json().then(({items:products}) => {
                         this.update({products});
