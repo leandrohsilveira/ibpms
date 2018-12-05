@@ -42,14 +42,14 @@ services:
   frontend:
     image: nginx:1.15.7-alpine
     volumes:
-      - ./frontend/public:/usr/share/nginx/html
+      - ./frontend:/usr/share/nginx/html
     networks: 
       - proxy_network
   
   proxy:
     image: nginx:1.15.7-alpine
     volumes:
-      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
+      - ./proxy:/etc/nginx/conf.d/
     ports:
       - 80:80
     depends_on:
