@@ -3,6 +3,10 @@ package com.github.leandrohsilveira.ibpms.query;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 public class QueryUtilsTest {
@@ -92,6 +96,20 @@ public class QueryUtilsTest {
 	@Test
 	public void nullLikeContainsUppercaseTest() {
 		assertNull(QueryUtils.likeContainsUppercase(null));
+	}
+	
+	@Test
+	public void buildChangesQueryTest() {
+		String updateQuery;
+		Map<String, Object> changes = new LinkedHashMap<>();
+		
+		changes.put("name", "Teste");
+		updateQuery = QueryUtils.buildChangesQuery("product", changes, "uuid = ?");
+		assertEquals("update product set name = ? where uuid = ?", updateQuery);
+		
+		changes.put("price", BigDecimal.TEN);
+		updateQuery = QueryUtils.buildChangesQuery("product", changes, "uuid = ?");
+		assertEquals("update product set name = ?, price = ? where uuid = ?", updateQuery);
 	}
 	
 }

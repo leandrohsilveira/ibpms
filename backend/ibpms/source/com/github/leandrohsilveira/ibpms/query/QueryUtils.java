@@ -1,6 +1,10 @@
 package com.github.leandrohsilveira.ibpms.query;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -55,6 +59,19 @@ public final class QueryUtils {
 			return likeContains(value).toUpperCase();
 		}
 		return null;
+	}
+	
+	public static String buildChangesQuery(String table, Map<String, Object> changes, String where) {
+		String set = changes.keySet().stream().map(param -> String.format("%s = ?", param)).collect(Collectors.joining(", "));
+		return String.format("update %s set %s where %s", table, set, where);
+	}
+	
+	public static <T> Predicate<T> isEqual(T other) {
+		return value -> Objects.equals(value, other);
+	}
+	
+	public static <T> Predicate<T> isNotEqual(T other) {
+		return value -> !Objects.equals(value, other);
 	}
 	
 }
