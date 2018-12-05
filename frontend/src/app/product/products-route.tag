@@ -1,6 +1,8 @@
 <app-products-route>
 
     <h2>Produtos</h2>
+    
+    <app-products-filter onfilter={filter} />
     <app-products if={!loading} products={products} />
     <loading class="loading" if={loading} />
 
@@ -8,6 +10,17 @@
         .loading {
             width: 100%;
         }
+
+        .buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .buttons > button:not(:first-child) {
+            margin-right: 5px;
+        }
+
     </style>
 
     <script>
@@ -19,6 +32,7 @@
             this.page = page;
             this.size = size;
             this.sort = sort;
+            this.filter = {};
             
             this.update = (newState) => {
                 console.log(newState);
@@ -29,15 +43,38 @@
                 this.trigger('updated');
             }
 
+            this.getQueryString = () => {
+                const params = {
+                    page: this.page,
+                    size: this.size,
+                    sort: this.sort
+                };
+
+                Object.keys(this.filter).forEach(key => {
+                    if(this.filter[key] !== undefined) params[key] = this.filter[key]
+                });
+
+                return Object.keys(params).map(name => `${name}=${params[name]}`).join('&');
+            }
+
         }
 
         this.products = [];
         this.loading = true;
         this.search = new SearchObservable(1, 10, 'name,asc');
 
+        this.filter = (values) => {
+            this.search.update({
+                filter: {
+                    name: values.name,
+                    uuid: values.uuid
+                }
+            });
+        }
+
         this.search.on('updated', () => {
             this.update({loading: true});
-            fetch(`/api/products?page=${this.search.page}&size=${this.search.size}&sort=${this.search.sort}`)
+            fetch(`/api/products?${this.search.getQueryString()}`)
                 .then(response => {
                     return response.json().then(({items:products, count}) => {
                         this.update({products});
