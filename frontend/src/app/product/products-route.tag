@@ -58,6 +58,7 @@
 
         this.filter = (values) => {
             this.search.update({
+                page: 1,
                 filter: {
                     name: values.name,
                     uuid: values.uuid
