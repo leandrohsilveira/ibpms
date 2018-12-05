@@ -14,11 +14,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.leandrohsilveira.ibpms.DAO;
+import com.github.leandrohsilveira.ibpms.ModelDAO;
 import com.github.leandrohsilveira.ibpms.query.QueryUtils;
 import com.github.leandrohsilveira.ibpms.query.SearchResult;
 
-public class ProductDAO extends DAO<Product> {
+public class ProductDAO extends ModelDAO<Product> {
 
 	public ProductDAO(Connection connection) {
 		super(connection);

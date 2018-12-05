@@ -42,13 +42,13 @@ public abstract class ModelService<T extends Model> implements Serializable {
 		}
 	}
 	
-	public <R, D extends DAO<T>> R withDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
+	public <R, D extends ModelDAO<T>> R withDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
 		return withConnection(connection -> {
 			return dao.applyWithDAO(daoSupplier.apply(connection));
 		});
 	}
 	
-	public <R, D extends DAO<T>> R withCommitableDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
+	public <R, D extends ModelDAO<T>> R withCommitableDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
 		return withCommitableConnection(connection -> {
 			return dao.applyWithDAO(daoSupplier.apply(connection));
 		});
@@ -67,7 +67,7 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	}
 	
 	@FunctionalInterface
-	public static interface ManagedDAO<R, M extends Model, D extends DAO<M>> {
+	public static interface ManagedDAO<R, M extends Model, D extends ModelDAO<M>> {
 		
 		R applyWithDAO(D dao) throws Exception;
 		

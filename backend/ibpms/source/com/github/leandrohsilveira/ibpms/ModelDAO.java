@@ -15,7 +15,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class DAO<T extends Model> {
+public abstract class ModelDAO<T extends Model> {
 	
 	@NonNull
 	protected Connection connection;
