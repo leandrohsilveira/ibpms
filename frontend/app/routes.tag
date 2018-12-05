@@ -1,3 +1,0 @@
-<app-routes>
-
-</app-routes>

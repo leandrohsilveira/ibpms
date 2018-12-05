@@ -1,7 +1,7 @@
 <app>
 
     <app-layout>
-        Hello world
+        <app-routes />
     </app-layout>
 
 </app>

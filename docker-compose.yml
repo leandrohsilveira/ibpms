@@ -42,7 +42,7 @@ services:
   frontend:
     image: nginx:1.15.7-alpine
     volumes:
-      - ./frontend:/usr/share/nginx/html
+      - ./frontend/public:/usr/share/nginx/html
     networks: 
       - proxy_network
   
