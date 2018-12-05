@@ -72,6 +72,13 @@ public class ProductDAO extends DAO<Product> {
 		return Optional.empty();
 	}
 	
+	public boolean delete(UUID uuid) throws SQLException {
+		String deleteQuery = "delete from product where uuid = ?";
+		PreparedStatement statement = connection.prepareStatement(deleteQuery);
+		setParamsToStatements(Arrays.asList(uuid.toString()), statement);
+		return statement.executeUpdate() > 0;
+	}
+	
 	public Optional<Product> findOne(UUID uuid) throws SQLException {
 		String searchQuery = "select uuid, name, price from product where uuid = ?";
 		PreparedStatement statement = connection.prepareStatement(searchQuery);
