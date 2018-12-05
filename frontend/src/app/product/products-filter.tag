@@ -4,11 +4,11 @@
         <div class="row">
             <div class="column">
                 <label for="name">ID</label>
-                <input type="text" name="uuid" ref="uuidFilter">
+                <input type="text" name="uuid" ref="uuid">
             </div>
             <div class="column">
                 <label for="name">Nome</label>
-                <input type="text" name="name" ref="nameFilter">
+                <input type="text" name="name" ref="name">
             </div>
         </div>
         <div class="row">
