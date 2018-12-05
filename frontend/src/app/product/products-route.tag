@@ -5,7 +5,7 @@
     <app-products-filter onfilter={filter} />
     <app-products if={!loading} products={products} />
     <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
-    <loading class="loading" if={loading} />
+    <app-loading class="loading" if={loading} />
 
     <style>
         :scope .loading {
