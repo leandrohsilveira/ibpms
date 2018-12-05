@@ -3,6 +3,7 @@ package com.github.leandrohsilveira.ibpms;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -41,6 +42,18 @@ public abstract class ModelService<T extends Model> implements Serializable {
 		}
 	}
 	
+	public <R, D extends DAO<T>> R withDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
+		return withConnection(connection -> {
+			return dao.applyWithDAO(daoSupplier.apply(connection));
+		});
+	}
+	
+	public <R, D extends DAO<T>> R withCommitableDAO(Function<Connection, D> daoSupplier, ManagedDAO<R, T, D> dao) {
+		return withCommitableConnection(connection -> {
+			return dao.applyWithDAO(daoSupplier.apply(connection));
+		});
+	}
+	
 	private void rollback(Connection connection) {
 		try {
 			log.warn("Rolling back connection {}", connection);
@@ -51,6 +64,13 @@ public abstract class ModelService<T extends Model> implements Serializable {
 		} catch (SQLException e) {
 			log.error("Failed to rollback: {}", e.getMessage(), e);
 		}
+	}
+	
+	@FunctionalInterface
+	public static interface ManagedDAO<R, M extends Model, D extends DAO<M>> {
+		
+		R applyWithDAO(D dao) throws Exception;
+		
 	}
 	
 	@FunctionalInterface
