@@ -1,7 +1,14 @@
 <app-products-route>
 
     <h2>Produtos</h2>
-    <app-products products={products} />
+    <app-products if={!loading} products={products} />
+    <loading class="loading" if={loading} />
+
+    <style>
+        .loading {
+            width: 100%;
+        }
+    </style>
 
     <script>
 
@@ -25,15 +32,20 @@
         }
 
         this.products = [];
+        this.loading = true;
         this.search = new SearchObservable(1, 10, 'name,asc');
 
         this.search.on('updated', () => {
+            this.update({loading: true});
             fetch(`/api/products?page=${this.search.page}&size=${this.search.size}&sort=${this.search.sort}`)
                 .then(response => {
                     return response.json().then(({items:products, count}) => {
                         this.update({products});
                     });
-                });
+                })
+                .finally(() => {
+                    this.update({loading: false});
+                })
         });
 
         this.on('route', () => {
