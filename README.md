@@ -6,8 +6,9 @@
 # Executar
 
 1. Abrir um terminal de comando no diretorio raiz, onde o arquivo `docker-compose.yml` está;
-2. Executar o comando `docker-compose up -d`;
-3. Acessar a página: `http://localhost`.
+2. Criar uma cópia do arquivo `.env.template` chamada `.env` no mesmo diretório. Este arquivo está mapeado no `.gitignore`.
+3. Executar o comando `docker-compose up -d`;
+4. Acessar a página: `http://localhost`.
 
 # Containers
 
