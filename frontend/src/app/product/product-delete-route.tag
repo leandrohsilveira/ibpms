@@ -22,7 +22,7 @@
                         window.ibpms.message.dispatch('Produto removido com sucesso');
                         route('/');
                     } else {
-                        window.ibpms.message.dispatch('Ocorreu um erro ao remover o produto');
+                        response.json().then(error => window.ibpms.message.dispatch(error.message));
                     }
                 })
                 .finally(() => {
@@ -43,11 +43,7 @@
                             this.update({product});
                         })
                     } else {
-                        if(response.status == 404) {
-                            window.ibpms.message.dispatch('Produto não encontrado');
-                        } else {
-                            window.ibpms.message.dispatch('Ocorreu um erro ao obter os dados do produto');
-                        }
+                        response.json().then(error => window.ibpms.message.dispatch(error.message));
                         route('/');
                     }
                 })

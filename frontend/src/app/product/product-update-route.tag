@@ -1,6 +1,6 @@
 <app-product-update-route>
     <h2>Atualizar produto</h2>
-    <app-product-form if={!loading} onproductsubmit={handleSubmit} oncancel={cancel} product={product} />
+    <app-product-form loading={loading} onproductsubmit={handleSubmit} oncancel={cancel} product={product} />
     <app-loading if={loading} />
     <script>
         this.uuid = null;
@@ -21,7 +21,7 @@
                     window.ibpms.message.dispatch('Produto atualizado com sucesso');
                     route('/');
                 } else {
-                    window.ibpms.message.dispatch('Ocorreu um erro ao atualizar o produto');
+                    response.json().then(error => window.ibpms.message.dispatch(error.message));
                 }
             })
             .finally(() => {
@@ -42,11 +42,7 @@
                             this.update({product});
                         });
                     } else {
-                        if(response.status == 404) {
-                            window.ibpms.message.dispatch('Produto não encontrado');
-                        } else {
-                            window.ibpms.message.dispatch('Ocorreu um erro ao obter os dados do produto');
-                        }
+                        response.json().then(error => window.ibpms.message.dispatch(error.message));
                         route('/');
                     }
                 })

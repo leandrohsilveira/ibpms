@@ -3,9 +3,9 @@
     <h2>Produtos</h2>
     <button type="button" onclick={create}>Cadastrar produto</button>
     <app-products-filter onfilter={filter} />
-    <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
+    <app-paginator if={!loading && products.length} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
     <app-products if={!loading} products={products} oneditclick={handleEditClick} ondeleteclick={handleDeleteClick} />
-    <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
+    <app-paginator if={!loading && products.length} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
     <app-loading if={loading} />
 
     <script>
@@ -50,7 +50,7 @@
                             this.update({products, count});
                         });
                     } else {
-                        window.ibpms.message.dispatch('Ocorreu um erro ao obter os dados dos produtos cadastrados');
+                        response.json().then(error => window.ibpms.message.dispatch(error.message));
                         route('/');
                     }
                 })

@@ -1,6 +1,6 @@
 <app-product-create-route>
     <h2>Cadastrar produto</h2>
-    <app-product-form if={!loading} onproductsubmit={handleSubmit} oncancel={cancel} />
+    <app-product-form loading={loading} onproductsubmit={handleSubmit} oncancel={cancel} />
     <app-loading if={loading} />
     <script>
         this.loading = false;
@@ -19,7 +19,7 @@
                     window.ibpms.message.dispatch('Produto cadastrado com sucesso');
                     route('/');
                 } else {
-                    window.ibpms.message.dispatch('Ocorreu um erro ao cadastrar o produto');
+                    response.json().then(error => window.ibpms.message.dispatch(error.message));
                 }
             })
             .finally(() => {

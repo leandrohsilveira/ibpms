@@ -2,6 +2,12 @@
 
     <form onsubmit={handleSubmit}>
         <fieldset>
+            <div class={'field': true, 'error': !!errors.code}>
+                <label for="code">Código</label>
+                <input type="text" name="code" ref="code" value={opts.product && opts.product.code}>
+                <span if={!!errors.code} class="msg">{errors.code}</span>
+            </div>
+
             <div class={'field': true, 'error': !!errors.name}>
                 <label for="name">Nome</label>
                 <input type="text" name="name" ref="name" value={opts.product && opts.product.name}>
@@ -15,7 +21,7 @@
             </div>
 
             <div class="buttons">
-                <button type="submit">{opts.product ? 'Atualizar' : 'Cadastrar'}</button>
+                <button disabled={opts.loading} type="submit">{opts.product ? 'Atualizar' : 'Cadastrar'}</button>
                 <button type="button" onclick={cancel} class="button button-clear">Cancelar</button>
             </div>
         </fieldset>
@@ -43,18 +49,23 @@
 
         this.handleSubmit = (e) => {
             e.preventDefault();
-            const errors = {};
-            const name = this.refs.name.value;
-            const price = this.maskedPriceRef.formatToNumber();
-            if(!name) errors['name'] = 'Campo obrigatório';
-            if(!price) errors['price'] = 'Campo obrigatório';
-            if(Object.keys(errors).length) {
-                this.update({errors});
-            } else if(typeof opts.onproductsubmit === 'function') {
-                opts.onproductsubmit({
-                    name,
-                    price
-                });
+            if(!opts.loading) {
+                const errors = {};
+                const code = this.refs.code.value;
+                const name = this.refs.name.value;
+                const price = this.maskedPriceRef.formatToNumber();
+                if(!code) errors['code'] = 'Campo obrigatório';
+                if(!name) errors['name'] = 'Campo obrigatório';
+                if(!price) errors['price'] = 'Campo obrigatório';
+                if(Object.keys(errors).length) {
+                    this.update({errors});
+                } else if(typeof opts.onproductsubmit === 'function') {
+                    opts.onproductsubmit({
+                        code,
+                        name,
+                        price
+                    });
+                }
             }
         };
 

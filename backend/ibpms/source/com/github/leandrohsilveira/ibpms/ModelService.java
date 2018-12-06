@@ -8,6 +8,9 @@ import java.util.function.Function;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
+import com.github.leandrohsilveira.ibpms.exceptions.ModelException;
+import com.github.leandrohsilveira.ibpms.exceptions.ModelUnhandledException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,9 +29,12 @@ public abstract class ModelService<T extends Model> implements Serializable {
 					connection.commit();
 				}
 				return result;
-			} catch (Exception e) {
+			} catch (ModelException e) {
 				rollback(connection);
 				throw e;
+			} catch (SQLException e) {
+				rollback(connection);
+				throw new ModelUnhandledException(e);
 			}
 		});
 	}
@@ -36,9 +42,8 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	protected <R> R withConnection(ManagedConnection<R> managedConnectionFunction) {
 		try (Connection connection = dataSource.getConnection()) {
 			return managedConnectionFunction.applyWhenConnected(connection);
-		} catch (Exception e) {
-			log.error("Unexpected error {}", e.getMessage(), e);
-			throw new RuntimeException(e);
+		} catch (SQLException e) {
+			throw new ModelUnhandledException(e);
 		}
 	}
 	
@@ -69,14 +74,14 @@ public abstract class ModelService<T extends Model> implements Serializable {
 	@FunctionalInterface
 	public static interface ManagedDAO<R, M extends Model, D extends ModelDAO<M>> {
 		
-		R applyWithDAO(D dao) throws Exception;
+		R applyWithDAO(D dao);
 		
 	}
 	
 	@FunctionalInterface
 	public static interface ManagedConnection<R> {
 		
-		R applyWhenConnected(Connection connection) throws Exception;
+		R applyWhenConnected(Connection connection);
 		
 	}
 	

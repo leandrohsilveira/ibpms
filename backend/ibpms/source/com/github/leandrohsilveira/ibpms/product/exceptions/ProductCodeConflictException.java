@@ -9,7 +9,7 @@ public class ProductCodeConflictException extends ModelException {
 	private static final long serialVersionUID = 8286403325325614450L;
 
 	public ProductCodeConflictException(String code) {
-		super(MessageFormat.format("Já existe um produto cadastrado com o código {}", code), 409);
+		super(MessageFormat.format("Já existe um produto cadastrado com o código {0}", code), 409);
 	}
 
 }

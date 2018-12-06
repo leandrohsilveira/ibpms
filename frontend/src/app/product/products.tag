@@ -11,8 +11,8 @@
         <tbody>
             <tr each={opts.products}>
                 <td>
-                    <div class="title"><strong>ID</strong></div>
-                    <div class="value">{ uuid }</div>
+                    <div class="title"><strong>Código</strong></div>
+                    <div class="value">{ code }</div>
                 </td>
                 <td>
                     <div class="title"><strong>Nome</strong></div>

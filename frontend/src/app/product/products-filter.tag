@@ -3,8 +3,8 @@
         <fieldset>
             <div class="row">
                 <div class="column">
-                    <label for="name">ID</label>
-                    <input type="text" name="uuid" ref="uuid">
+                    <label for="name">Código</label>
+                    <input type="text" name="code" ref="code">
                 </div>
                 <div class="column">
                     <label for="name">Nome</label>
@@ -13,12 +13,12 @@
                 <div class="column">
                     <label for="sort">Ordernar por</label>
                     <select name="sort" ref="sort">
-                        <option selected value="name,asc">Por nome crescente</option>
-                        <option value="name,desc">Por nome decrescente</option>
-                        <option value="uuid,asc">Por ID crescente</option>
-                        <option value="uuid,desc">Por ID decrescente</option>
-                        <option value="price,asc">Por preço crescente</option>
-                        <option value="price,desc">Por preço decrescente</option>
+                        <option selected value="name,asc">Nome crescente</option>
+                        <option value="name,desc">Nome decrescente</option>
+                        <option value="code,asc">Código crescente</option>
+                        <option value="code,desc">Código decrescente</option>
+                        <option value="price,asc">Preço crescente</option>
+                        <option value="price,desc">Preço decrescente</option>
                     </select>
                 </div>
             </div>
@@ -37,7 +37,7 @@
         this.filter = (e) => {
             e.preventDefault();
             const values = {
-                uuid: this.refs.uuid.value,
+                code: this.refs.code.value,
                 name: this.refs.name.value,
                 sort: this.refs.sort.value
             }
