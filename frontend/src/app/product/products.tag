@@ -14,11 +14,19 @@
                 <td>{ name }</td>
                 <td>{ price }</td>
                 <td if={showActionsColumn}>
-                    <button if={showUpdateButton} type="button" onclick={edit}>Editar</button>
+                    <button if={showUpdateButton} class="button button-outline" type="button" onclick={edit}>Editar</button>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <style>
+        :scope tbody .button {
+            height: 3rem;
+            line-height: 3rem;
+            padding: 0 10px;
+        }
+    </style>
 
     <script>
         this.showUpdateButton = false;
