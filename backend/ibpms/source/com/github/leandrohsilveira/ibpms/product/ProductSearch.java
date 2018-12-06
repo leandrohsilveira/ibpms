@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class ProductSearch {
 	
-	private String uuid;
+	private String code;
 	
 	private String name;
 	

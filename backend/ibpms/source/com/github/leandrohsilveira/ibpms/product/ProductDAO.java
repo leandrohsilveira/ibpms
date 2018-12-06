@@ -28,6 +28,7 @@ public class ProductDAO extends ModelDAO<Product> {
 	protected Product toModel(ResultSet set) throws SQLException {
 		return Product.builder()
 				.uuid(UUID.fromString(set.getString("uuid")))
+				.code(set.getString("code"))
 				.name(set.getString("name"))
 				.price(set.getBigDecimal("price"))
 				.build();
@@ -36,6 +37,10 @@ public class ProductDAO extends ModelDAO<Product> {
 	@Override
 	protected Map<String, Object> mergeChanges(Product current, Product next) {
 		Map<String, Object> updateParamsMap = new HashMap<>();
+		Optional.ofNullable(next.getCode())
+			.filter(QueryUtils.isNotEqual(current.getCode()))
+			.ifPresent(code -> updateParamsMap.put("code", code));
+
 		Optional.ofNullable(next.getName())
 			.filter(QueryUtils.isNotEqual(current.getName()))
 			.ifPresent(name -> updateParamsMap.put("name", name));
@@ -48,8 +53,8 @@ public class ProductDAO extends ModelDAO<Product> {
 	
 	public UUID create(Product product) throws SQLException {
 		UUID uuid = UUID.randomUUID();
-		PreparedStatement preparedStatement = connection.prepareStatement("insert into product (uuid, name, price) values (?, ?, ?)");
-		List<Object> params = Arrays.asList(uuid.toString(), product.getName(), product.getPrice());
+		PreparedStatement preparedStatement = connection.prepareStatement("insert into product (uuid, code, name, price) values (?, ?, ?, ?)");
+		List<Object> params = Arrays.asList(uuid, product.getCode(), product.getName(), product.getPrice());
 		setParamsToStatements(params, preparedStatement);
 		preparedStatement.execute();
 		return uuid;
@@ -82,24 +87,24 @@ public class ProductDAO extends ModelDAO<Product> {
 	}
 	
 	public Optional<Product> findOne(UUID uuid) throws SQLException {
-		String searchQuery = "select uuid, name, price from product where uuid = ?";
+		String searchQuery = "select uuid, code, name, price from product where uuid = ?";
 		PreparedStatement statement = connection.prepareStatement(searchQuery);
 		setParamsToStatements(Arrays.asList(uuid.toString()), statement);
 		return getSingleResult(statement);
 	}
 
 	public SearchResult<Product> search(ProductSearch search) throws SQLException {
-		String where = "where (? is null or upper(uuid) like ?) and (? is null or upper(name) like ?)";
+		String where = "where (? is null or upper(code) like ?) and (? is null or upper(name) like ?)";
 		
-		String searchProjection = "select uuid, name, price from product";
-		String countProjection = "select count(uuid) as count from product";
+		String searchProjection = "select uuid, code, name, price from product";
+		String countProjection = "select count(code) as count from product";
 		
 		List<Object> params = Arrays.asList(
-				QueryUtils.likeContainsUppercase(search.getUuid()), 
-				QueryUtils.likeContainsUppercase(search.getUuid()), 
-				QueryUtils.likeContainsUppercase(search.getName()), 
-				QueryUtils.likeContainsUppercase(search.getName())
-				);
+			QueryUtils.likeContainsUppercase(search.getCode()), 
+			QueryUtils.likeContainsUppercase(search.getCode()), 
+			QueryUtils.likeContainsUppercase(search.getName()), 
+			QueryUtils.likeContainsUppercase(search.getName())
+		);
 		
 		PreparedStatement searchStatement = connection.prepareStatement(QueryUtils.buildQuery(searchProjection, where, search.getPagination(), search.getSort()));
 		PreparedStatement countStatement = connection.prepareStatement(QueryUtils.buildQuery(countProjection, where, null, null));

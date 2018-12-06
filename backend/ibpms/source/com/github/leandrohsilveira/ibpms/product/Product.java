@@ -20,12 +20,15 @@ public class Product extends Model {
 	private static final long serialVersionUID = 1894799518679462789L;
 	
 	@Builder
-	public Product(UUID uuid, String name, BigDecimal price) {
+	public Product(UUID uuid, String code, String name, BigDecimal price) {
 		super(uuid);
+		this.code = code;
 		this.name = name;
 		this.price = price;
 	}
-
+	
+	private String code;
+	
 	private String name;
 	
 	private BigDecimal price;

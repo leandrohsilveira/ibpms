@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.github.leandrohsilveira.ibpms.product.exceptions.ProductNotFoundException;
 import com.github.leandrohsilveira.ibpms.query.Pagination;
 import com.github.leandrohsilveira.ibpms.query.SearchResult;
 import com.github.leandrohsilveira.ibpms.query.Sort;
@@ -31,39 +32,34 @@ public class ProductResource {
 
 	@GET
 	public SearchResult<Product> search( //
-			@QueryParam("uuid") String uuid, //
+			@QueryParam("code") String code, //
 			@QueryParam("name") String name, //
 			@QueryParam("page") Integer page, //
 			@QueryParam("size") Integer size, //
 			@QueryParam("sort") String sortExpression) {
 		return productService
-				.search(new ProductSearch(uuid, name, new Pagination(page, size), new Sort(sortExpression)));
+				.search(new ProductSearch(code, name, new Pagination(page, size), new Sort(sortExpression)));
 	}
 
 	@GET
 	@Path("{uuid}")
-	public Response findOne(@PathParam("uuid") String uuid) {
-		return productService.findOne(UUID.fromString(uuid)) //
-						.map(DefaultResponse::ok) //
-						.orElseGet(DefaultResponse::notFound);
+	public Product findOne(@PathParam("uuid") String uuid) {
+		return productService.findOne(UUID.fromString(uuid)).orElseThrow(ProductNotFoundException::new);
 	}
 	
 	@DELETE
 	@Path("{uuid}")
-	public Response delete(@PathParam("uuid") String uuid) {
-		return Optional.of(UUID.fromString(uuid))
+	public void delete(@PathParam("uuid") String uuid) {
+		Optional.of(UUID.fromString(uuid))
 				.filter(productService::delete)
-				.map(i -> DefaultResponse.noContent())
-				.orElseGet(DefaultResponse::notFound);
+				.orElseThrow(ProductNotFoundException::new);
 	}
 	
 	@PATCH
 	@Path("{uuid}")
 	@Consumes(Mimes.JSON)
-	public Response update(@PathParam("uuid") String uuid, Product product) {
-		return productService.update(UUID.fromString(uuid), product) //
-					.map(DefaultResponse::ok) //
-					.orElseGet(DefaultResponse::notFound);
+	public Product update(@PathParam("uuid") String uuid, Product product) {
+		return productService.update(UUID.fromString(uuid), product).orElseThrow(ProductNotFoundException::new);
 	}
 	
 	@POST
