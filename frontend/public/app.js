@@ -10,5 +10,5 @@ window.ibpmsDefaultSimpleMaskMoneyConfig = {
     "prefix": "",
     "suffix": "",
     "thousandsSeparator": ".",
-    "cursor": "move"
+    "cursor": "end"
 };

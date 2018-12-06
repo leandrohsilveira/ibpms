@@ -10,7 +10,7 @@
 
             <div class={'field': true, 'error': !!errors.price}>
                 <label for="name">Preço</label>
-                <input type="text" name="price" ref="price" class="input-money-mask" value={numeral((opts.product && opts.product.price) || 0).format('0,0.00')}>
+                <input type="text" name="price" ref="price" class="input-money-mask" inputmode="numeric" value={numeral((opts.product && opts.product.price) || 0).format('0,0.00')}>
                 <span if={!!errors.price} class="msg">{errors.price}</span>
             </div>
 
