@@ -10,7 +10,7 @@
 
             <div class={'field': true, 'error': !!errors.price}>
                 <label for="name">Preço</label>
-                <input type="text" name="price" ref="price" value={opts.product && opts.product.price}>
+                <input type="text" name="price" ref="price" class="input-money-mask" value={numeral((opts.product && opts.product.price) || 0).format('0,0.00')}>
                 <span if={!!errors.price} class="msg">{errors.price}</span>
             </div>
 
@@ -39,12 +39,13 @@
 
     <script>
         this.errors = {};
+        this.maskedPriceRef = null;
 
         this.handleSubmit = (e) => {
             e.preventDefault();
             const errors = {};
             const name = this.refs.name.value;
-            const price = this.refs.price.value;
+            const price = this.maskedPriceRef.formatToNumber();
             if(!name) errors['name'] = 'Campo obrigatório';
             if(!price) errors['price'] = 'Campo obrigatório';
             if(Object.keys(errors).length) {
@@ -62,6 +63,10 @@
                 opts.oncancel();
             }
         };
+
+        this.on('mount', () => {
+            this.maskedPriceRef = SimpleMaskMoney.setMask('.input-money-mask', window.ibpmsDefaultSimpleMaskMoneyConfig);
+        });
 
     </script>
 </app-product-form>
