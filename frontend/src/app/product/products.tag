@@ -18,6 +18,11 @@
                     <button if={showDeleteButton} class="button button-danger button-outline" onclick={handleDeleteClick} type="button">Remover</button>
                 </td>
             </tr>
+            <tr if={!opts.products || !opts.products.length}>
+                <td colspan={showActionsColumn ? 4 : 3} class="empty-result">
+                    Nenhum produto encontrado.
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -27,6 +32,11 @@
             line-height: 3rem;
             padding: 0 10px;
         }
+
+        :scope tr > td.empty-result {
+            text-align: center;
+        }
+
     </style>
 
     <script>
