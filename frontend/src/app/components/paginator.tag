@@ -1,29 +1,36 @@
 <app-paginator> 
-    
     <div class="app-paginator">
-        <button disabled={opts.page < 3} onclick={first} class="button button-clear">{"<<"}</button>
-        <button disabled={opts.page === 1} onclick={previous} class="button button-clear">{"<"}</button>
-        <button 
-            class={parent.getButtonClasses(page)} 
-            each={page in pages} 
-            disabled={page === opts.page}
-            onclick={this.parent.changePage}>
-            {page}
-        </button>
-        <button disabled={opts.page >= totalPages} onclick={next} class="button button-clear">{">"}</button>
-        <button disabled={opts.page >= (totalPages - 1)} onclick={last} class="button button-clear">{">>"}</button>
-        <select name="size" onchange={changeSize}>
-            <option selected={opts.size === 5} value={5}>5 itens por página</option>
-            <option selected={opts.size === 10} value={10}>10 itens por página</option>
-            <option selected={opts.size === 15} value={15}>15 itens por página</option>
-            <option selected={opts.size === 30} value={30}>30 itens por página</option>
-            <option selected={opts.size === 50} value={50}>50 itens por página</option>
-        </select>
+        <div class="app-paginator-container">
+            <button disabled={opts.page < 3} onclick={first} class="button button-clear">{"<<"}</button>
+            <button disabled={opts.page === 1} onclick={previous} class="button button-clear">{"<"}</button>
+            <button 
+                class={parent.getButtonClasses(page)} 
+                each={page in pages} 
+                disabled={page === opts.page}
+                onclick={this.parent.changePage}>
+                {page}
+            </button>
+            <button disabled={opts.page >= totalPages} onclick={next} class="button button-clear">{">"}</button>
+            <button disabled={opts.page >= (totalPages - 1)} onclick={last} class="button button-clear">{">>"}</button>
+            <select name="size" onchange={changeSize}>
+                <option selected={opts.size === 5} value={5}>5 itens por página</option>
+                <option selected={opts.size === 10} value={10}>10 itens por página</option>
+                <option selected={opts.size === 15} value={15}>15 itens por página</option>
+                <option selected={opts.size === 30} value={30}>30 itens por página</option>
+                <option selected={opts.size === 50} value={50}>50 itens por página</option>
+            </select>
+        </div>
     </div>
 
     <style>
         :scope .button {
             padding: 0 15px;
+        }
+
+        :scope > .app-paginator {
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
         }
 
         @media (min-width: 40.0rem) { 
