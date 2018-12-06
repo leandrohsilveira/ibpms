@@ -15,6 +15,7 @@
                 <td>{ price }</td>
                 <td if={showActionsColumn}>
                     <button if={showUpdateButton} class="button button-outline" type="button" onclick={edit}>Editar</button>
+                    <button class="button button-danger" type="button">Remover</button>
                 </td>
             </tr>
         </tbody>
