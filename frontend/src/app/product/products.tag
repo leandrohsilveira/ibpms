@@ -10,12 +10,24 @@
         </thead>
         <tbody>
             <tr each={opts.products}>
-                <td>{ uuid }</td>
-                <td>{ name }</td>
-                <td>{ numeral(price).format('$ 0,0.00') }</td>
+                <td>
+                    <div class="title"><strong>ID</strong></div>
+                    <div class="value">{ uuid }</div>
+                </td>
+                <td>
+                    <div class="title"><strong>Nome</strong></div>
+                    <div class="value">{ name }</div>
+                </td>
+                <td>
+                    <div class="title"><strong>Preço</strong></div>
+                    <div class="value">{ numeral(price).format('$ 0,0.00') }</div>
+                </td>
                 <td if={showActionsColumn}>
-                    <button if={showUpdateButton} class="button button-outline" type="button" onclick={handleEditClick}>Editar</button>
-                    <button if={showDeleteButton} class="button button-danger button-outline" onclick={handleDeleteClick} type="button">Remover</button>
+                    <div class="title"></div>
+                    <div class="value">
+                        <button if={showUpdateButton} class="button button-outline" type="button" onclick={handleEditClick}>Editar</button>
+                        <button if={showDeleteButton} class="button button-danger button-outline" onclick={handleDeleteClick} type="button">Remover</button>
+                    </div>
                 </td>
             </tr>
             <tr if={!opts.products || !opts.products.length}>
@@ -27,6 +39,10 @@
     </table>
 
     <style>
+        :scope > table * {
+            box-sizing: border-box;
+        }
+
         :scope tbody .button {
             height: 3rem;
             line-height: 3rem;
@@ -35,6 +51,55 @@
 
         :scope tr > td.empty-result {
             text-align: center;
+        }
+
+        :scope td > .title {
+            display: none;
+        }
+
+        @media (max-width: 50.0rem) {
+            :scope table > thead {
+                display: none;
+            }
+
+            :scope > table > tbody > tr > td {
+                display: flex;
+                width: 100%;
+                border: none;
+            }
+
+            :scope > table > tbody > tr > td > .title {
+                display: block;
+                width: 30%;
+                border: none;
+                text-align: right;
+                margin-right: 15px;
+            }
+
+            :scope > table > tbody > tr > td > .value {
+                display: block;
+                width: 70%;
+                border: none;
+            }
+
+            :scope > table > tbody > tr > td + td > .value,
+            :scope > table > tbody > tr > td + td > .title {
+                border-left: none;
+            }
+
+            :scope > table > tbody > tr > td:last-child {
+                border-bottom: 1px solid #ccc;
+            }
+
+            :scope > table > tbody > tr:last-child > td:last-child {
+                border-bottom: none;
+            }
+
+            :scope > table td:last-child,
+            :scope > table td:first-child {
+                padding: 1.2rem 1.5rem;
+            }
+
         }
 
     </style>
