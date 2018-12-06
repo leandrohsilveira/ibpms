@@ -41,13 +41,26 @@ Foi publicada uma documentação da API REST através do Postman, para acessá-l
 
 Foi utilizado o [Riot.JS](https://riot.js.org/) para construir a aplicação do tipo Single Page App e o [Milligram](https://milligram.io/) para estilização básica do layout.
 
-O NPM é utilizado apenas para acessar a ferramente de pré-processamento do Riot.
-Utilizar o comando `npm start` para iniciar a ferramenta no modo watcher.
-
-O diretório **frontend/public** é mapeado para dentro do container do frontend, então todas quaisquer alterações feitas são publicadas instantaneamente. Basta dar um refresh no navegador (cuidado com o cache, CTRL + R).
-
 ## Proxy
 
 O proxy atua roteando as rotas da seguinte maneira:
 * Requisições para **/api/\*** é mapeado para o **backend** no caminho **/\***
 * Requisições para **/\*** é mapeado para o **frontend** no caminho **/\***
+
+# Ambientes
+
+## Produção
+
+Basta executar o comando `docker-compose up -d` na raiz do projeto e esperar.
+
+## Desenvolvimento
+
+Abrir dois terminais de comando na raiz do projeto.
+
+1. No primeiro terminal, executar o comando `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`;
+2. No segundo terminal, executar os comandos:
+    1. `cd frontend` para navegar para o diretorio do frontend.
+    2. `npm i` para instalar as dependencias de desenvolvimento.
+    3. `npm start` para iniciar a ferramenta do `riot` em modo "watcher".
+
+Ao salvar algum arquivo dentro da pasta `frontend/public` e `frontend/src`, as mudanças serão aplicadas imediatamente.
