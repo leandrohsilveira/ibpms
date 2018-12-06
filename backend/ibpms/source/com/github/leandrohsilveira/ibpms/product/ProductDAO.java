@@ -60,13 +60,15 @@ public class ProductDAO extends ModelDAO<Product> {
 		if(findOne.isPresent()) {
 			Product current = findOne.get();
 			Map<String, Object> changes = mergeChanges(current, product);
-			String updateQuery = QueryUtils.buildChangesQuery("product", changes, "uuid = ?");
-			PreparedStatement statement = connection.prepareStatement(updateQuery);
-			Stream<Object> updateParams = changes.entrySet().stream().map(Entry::getValue);
-			Stream<String> whereParams = Arrays.asList(uuid.toString()).stream();
-			List<Object> params = Stream.concat(updateParams, whereParams).collect(Collectors.toList());
-			setParamsToStatements(params, statement);
-			statement.executeUpdate();
+			if(!changes.isEmpty()) {
+				String updateQuery = QueryUtils.buildChangesQuery("product", changes, "uuid = ?");
+				PreparedStatement statement = connection.prepareStatement(updateQuery);
+				Stream<Object> updateParams = changes.entrySet().stream().map(Entry::getValue);
+				Stream<String> whereParams = Arrays.asList(uuid.toString()).stream();
+				List<Object> params = Stream.concat(updateParams, whereParams).collect(Collectors.toList());
+				setParamsToStatements(params, statement);
+				statement.executeUpdate();
+			}
 			return findOne(uuid);
 		}
 		return Optional.empty();
