@@ -1,6 +1,6 @@
 <app-product-form>
 
-    <form onsumit={submit}>
+    <form onsubmit={handleSubmit}>
         <fieldset>
             <div class={'field': true, 'error': !!errors.name}>
                 <label for="name">Nome</label>
@@ -22,23 +22,25 @@
     </form>
 
     <style>
-        :scope .field.error > label {
+        :scope .field.error {
             color: red;
         }
 
         :scope .field.error > input {
+            color: red;
             border-color: red;
+            margin-bottom: 5px;
         }
 
-        :scope .field.error > .msg {
-            border-color: red;
+        :scope .field > .msg {
+            margin-bottom: 10px;
         }
     </style>
 
     <script>
         this.errors = {};
 
-        this.submit = (e) => {
+        this.handleSubmit = (e) => {
             e.preventDefault();
             const errors = {};
             const name = this.refs.name.value;
