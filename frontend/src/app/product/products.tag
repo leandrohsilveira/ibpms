@@ -24,7 +24,7 @@
                 </td>
                 <td if={showActionsColumn}>
                     <div class="title"></div>
-                    <div class="value">
+                    <div class="value buttons">
                         <button if={showUpdateButton} class="button button-outline" type="button" onclick={handleEditClick}>Editar</button>
                         <button if={showDeleteButton} class="button button-danger button-outline" onclick={handleDeleteClick} type="button">Remover</button>
                     </div>
@@ -39,6 +39,11 @@
     </table>
 
     <style>
+        :scope td .buttons {
+            width: 100%;
+            text-align: right;
+        }
+
         :scope > table * {
             box-sizing: border-box;
         }
@@ -98,6 +103,10 @@
             :scope > table td:last-child,
             :scope > table td:first-child {
                 padding: 1.2rem 1.5rem;
+            }
+
+            :scope td .buttons {
+                text-align: left;
             }
 
         }
