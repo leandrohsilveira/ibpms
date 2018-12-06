@@ -2,7 +2,7 @@
 
     <div class={'message': true, 'show': !!description}>
         <div class="description">{description}</div>
-        <button class="button button-clear">Dispensar</button>
+        <button type="button" class="button button-clear" onclick={handleDismissClick}>Dispensar</button>
     </div>
 
     <style>
@@ -24,9 +24,17 @@
             transition: height 0.5s;
         }
 
+        :scope > .message > * {
+            display: none;
+        }
+
         :scope > .message.show {
             height: 5rem;
             padding: 0 3rem;
+        }
+
+        :scope > .message.show > * {
+            display: block;
         }
 
         :scope > .message > button {
@@ -49,33 +57,34 @@
     </style>
 
     <script>
-    
+
         this.description = null;
         this.timeout = null;
+        this.unsubscribe = null;
 
         this.handleDismissClick = () => {
             if(this.timeout) {
-                this.timeout();
+                clearTimeout(this.timeout);
             }
             this.dismiss();
         }
 
-        this.handleMessageEvent = (e) => {
-            if(this.timeout) {
-                this.timeout();
-            }
-            this.update({
-                description:  e.detail, 
-                timeout: this.setTimeout(() => this.dismiss(), opts.dismissTime || 5000)
-            });
-        };
-
         this.dismiss = () => {
-            this.update({description: null, timout: null});
+            this.update({description: null, timeout: null});
         }
 
-        this.on('mount', () => document.addEventListener('ibpms.message.set', this.handleMessageEvent));
-        this.on('unmount', () => document.removeEventListener('ibpms.message.set', this.handleMessageEvent));
+        this.on('mount', () => {
+            this.unsubscribe = window.ibpms.message.subscribe(description => {
+                if(this.timeout) {
+                    clearTimeout(this.timeout);
+                }
+                this.update({
+                    description, 
+                    timeout: setTimeout(() => this.dismiss(), opts.dismissTime || 5000)
+                });
+            });
+        });
+        this.on('unmount', () => this.unsubscribe && this.unsubscribe());
 
     </script>
 </app-message>

@@ -16,7 +16,10 @@
             })
             .then(response => {
                 if(response.status < 300) {
+                    window.ibpms.message.dispatch('Produto cadastrado com sucesso');
                     route('/');
+                } else {
+                    window.ibpms.message.dispatch('Ocorreu um erro ao cadastrar o produto');
                 }
             })
             .finally(() => {

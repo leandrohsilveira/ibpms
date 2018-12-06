@@ -18,7 +18,10 @@
             })
             .then(response => {
                 if(response.status < 300) {
+                    window.ibpms.message.dispatch('Produto atualizado com sucesso');
                     route('/');
+                } else {
+                    window.ibpms.message.dispatch('Ocorreu um erro ao atualizar o produto');
                 }
             })
             .finally(() => {
@@ -37,8 +40,13 @@
                     if(response.status < 400) {
                         return response.json().then(product => {
                             this.update({product});
-                        })
+                        });
                     } else {
+                        if(response.status == 404) {
+                            window.ibpms.message.dispatch('Produto não encontrado');
+                        } else {
+                            window.ibpms.message.dispatch('Ocorreu um erro ao obter os dados do produto');
+                        }
                         route('/');
                     }
                 })
