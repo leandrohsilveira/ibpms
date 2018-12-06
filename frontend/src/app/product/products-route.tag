@@ -3,7 +3,7 @@
     <h2>Produtos</h2>
     <button type="button" onclick={create}>Cadastrar produto</button>
     <app-products-filter onfilter={filter} />
-    <app-products if={!loading} products={products} oneditclick={handleEditClick} />
+    <app-products if={!loading} products={products} oneditclick={handleEditClick} ondeleteclick={handleDeleteClick} />
     <app-paginator if={!loading} page={search.page} count={count} size={search.size} onpaginationchange={handlePaginationChange} />
     <app-loading class="loading" if={loading} />
 
@@ -36,6 +36,10 @@
 
         this.handleEditClick = (product) => {
             route(`/edit/${product.uuid}`);
+        }
+
+        this.handleDeleteClick = (product) => {
+            route(`/delete/${product.uuid}`);
         }
 
         this.on('before-mount', () => this.search.on('updated', this.fetchProducts));
