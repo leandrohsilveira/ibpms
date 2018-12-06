@@ -49,6 +49,33 @@
     </style>
 
     <script>
-        this.description = "Mensagem de teste";
+    
+        this.description = null;
+        this.timeout = null;
+
+        this.handleDismissClick = () => {
+            if(this.timeout) {
+                this.timeout();
+            }
+            this.dismiss();
+        }
+
+        this.handleMessageEvent = (e) => {
+            if(this.timeout) {
+                this.timeout();
+            }
+            this.update({
+                description:  e.detail, 
+                timeout: this.setTimeout(() => this.dismiss(), opts.dismissTime || 5000)
+            });
+        };
+
+        this.dismiss = () => {
+            this.update({description: null, timout: null});
+        }
+
+        this.on('mount', () => document.addEventListener('ibpms.message.set', this.handleMessageEvent));
+        this.on('unmount', () => document.removeEventListener('ibpms.message.set', this.handleMessageEvent));
+
     </script>
 </app-message>
