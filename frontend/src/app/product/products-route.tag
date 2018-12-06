@@ -45,9 +45,14 @@
             this.update({loading: true});
             fetch(`/api/products?${this.search.getQueryString()}`)
                 .then(response => {
-                    return response.json().then(({items:products, count}) => {
-                        this.update({products, count});
-                    });
+                    if(response.status < 400) {
+                        return response.json().then(({items:products, count}) => {
+                            this.update({products, count});
+                        });
+                    } else {
+                        window.ibpms.message.dispatch('Ocorreu um erro ao obter os dados dos produtos cadastrados');
+                        route('/');
+                    }
                 })
                 .finally(() => {
                     this.update({loading: false});
