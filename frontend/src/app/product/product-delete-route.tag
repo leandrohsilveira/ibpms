@@ -1,7 +1,7 @@
 <app-product-delete-route>
     <h2>Remover produto</h2>
     <fieldset if={!loading}>
-        <p>Você tem certeza que deseja excluir o produto "{product.name}" com ID <strong>{product.uuid}</strong>? Esta ação é irreversível.</p>
+        <p>Você tem certeza que deseja excluir o produto "{product.name}" com código <strong>{product.code}</strong>? Esta ação é irreversível.</p>
         <div class="buttons">
             <button type="button" class="button button-danger" onclick={handleDeleteClick}>Remover o produto</button>
             <button type="button" class="button button-clear" onclick={handleCancelClick}>Manter o produto</button>
