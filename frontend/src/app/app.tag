@@ -2,6 +2,7 @@
 
     <app-layout>
         <app-routes />
+        <app-message />
     </app-layout>
 
     <style>
