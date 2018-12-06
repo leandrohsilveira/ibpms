@@ -29,7 +29,7 @@
         }
 
         :scope > .message.show {
-            height: 5rem;
+            height: 7rem;
             padding: 0 3rem;
         }
 
@@ -49,8 +49,12 @@
 
         @media (max-width: 40.0rem) {
             :scope > .message.show {
-                height: 5rem;
+                height: 7rem;
                 padding: 0 0.5rem;
+            }
+
+            :scope > .message > .description {
+                font-size: 0.9em;
             }
         }
 
