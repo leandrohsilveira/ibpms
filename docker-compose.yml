@@ -40,9 +40,8 @@ services:
     command: bash --login -c "envsubst < ./ibpms/env.template.yml > ./ibpms/env.yml && kikaha run_app ibpms"
 
   frontend:
-    image: nginx:1.15.7-alpine
-    volumes:
-      - ./frontend/public:/usr/share/nginx/html
+    build: 
+      context: ./frontend
     networks: 
       - proxy_network
   

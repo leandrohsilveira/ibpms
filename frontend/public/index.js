@@ -39,3 +39,5 @@ window.ibpms = {
 }
 
 riot.mount('*');
+
+route.base('/');
