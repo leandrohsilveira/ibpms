@@ -12,7 +12,7 @@
             <tr each={opts.products}>
                 <td>{ uuid }</td>
                 <td>{ name }</td>
-                <td>{ price }</td>
+                <td>{ numeral(price).format('$ 0,0.00') }</td>
                 <td if={showActionsColumn}>
                     <button if={showUpdateButton} class="button button-outline" type="button" onclick={handleEditClick}>Editar</button>
                     <button if={showDeleteButton} class="button button-danger button-outline" onclick={handleDeleteClick} type="button">Remover</button>
