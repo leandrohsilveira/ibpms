@@ -12,6 +12,12 @@
             flex-direction: row-reverse;
         }
 
+         @media (max-width: 40.0rem) {
+            fieldset .buttons {
+                flex-direction: column-reverse;
+            }
+         }
+
         .button.button-danger {
             background-color: red;
             border-color: red;
