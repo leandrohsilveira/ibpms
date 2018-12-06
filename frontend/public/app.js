@@ -12,3 +12,9 @@ window.ibpmsDefaultSimpleMaskMoneyConfig = {
     "thousandsSeparator": ".",
     "cursor": "end"
 };
+
+window.ibpms_dispatchEvent = function (type, payload) {
+    const event = document.createEvent('CustomEvent');
+    event.initCustomEvent(type, false, false, payload);
+    document.dispatchEvent(event);
+};
