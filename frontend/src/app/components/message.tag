@@ -1,3 +1,5 @@
+import messageObservable from './message';
+
 <app-message>
 
     <div class={'message': true, 'show': !!description}>
@@ -64,31 +66,21 @@
 
         this.description = null;
         this.timeout = null;
-        this.unsubscribe = null;
 
         this.handleDismissClick = () => {
+            messageObservable.next();
+        }
+
+        messageObservable.subscribe(this, description => {
             if(this.timeout) {
                 clearTimeout(this.timeout);
             }
-            this.dismiss();
-        }
-
-        this.dismiss = () => {
-            this.update({description: null, timeout: null});
-        }
-
-        this.on('mount', () => {
-            this.unsubscribe = window.ibpms.message.subscribe(description => {
-                if(this.timeout) {
-                    clearTimeout(this.timeout);
-                }
-                this.update({
-                    description, 
-                    timeout: setTimeout(() => this.dismiss(), opts.dismissTime || 5000)
-                });
+            this.update({
+                description, 
+                timeout: description && setTimeout(() => this.handleDismissClick(), opts.dismissTime || 5000)
             });
         });
-        this.on('unmount', () => this.unsubscribe && this.unsubscribe());
+
 
     </script>
 </app-message>
