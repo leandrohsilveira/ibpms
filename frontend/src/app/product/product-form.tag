@@ -1,3 +1,6 @@
+import SimpleMaskMoney from 'simple-mask-money';
+import maskConfig from '../config/mask';
+
 <app-product-form>
 
     <form onsubmit={handleSubmit}>
@@ -76,7 +79,7 @@
         };
 
         this.on('mount', () => {
-            this.maskedPriceRef = SimpleMaskMoney.setMask('.input-money-mask', window.ibpmsDefaultSimpleMaskMoneyConfig);
+            this.maskedPriceRef = SimpleMaskMoney.setMask('.input-money-mask', maskConfig);
         });
 
     </script>
