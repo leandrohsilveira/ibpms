@@ -1,10 +1,17 @@
 version: "3"
 
+volumes:
+  frontend-node_modules:
+
 services:
   frontend:
     build: 
       context: ./frontend
       dockerfile: docker/dev/Dockerfile
     volumes:
-      - ./frontend:/home/app
+      - ./frontend/src:/home/app/src
+      - ./frontend/public:/home/app/public
+      - ./frontend/webpack.config.js:/home/app/webpack.config.js
+      - ./frontend/.babelrc:/home/app/.babelrc
+      - frontend-node_modules:/home/app/node_modules
 
