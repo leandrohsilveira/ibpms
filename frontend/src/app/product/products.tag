@@ -40,78 +40,101 @@ import numeral from 'numeral';
         </tbody>
     </table>
 
-    <style>
-        :scope td .buttons {
-            width: 100%;
-            text-align: right;
+    <style type="scss">
+
+        :scope {
+            > table {
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                > tbody {
+
+                    > tr {
+                        > td {
+                            .buttons {
+                                width: 100%;
+                                text-align: right;
+
+                                > .button {
+                                    height: 3rem;
+                                    line-height: 3rem;
+                                    padding: 0 10px;
+                                }
+                            }
+
+                            &.empty-result {
+                               text-align: center;
+                            }
+
+                            > title {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+
+                @media (max-width: 50.0rem) {
+
+                    > thead {
+                        display: none;
+                    }
+
+                    > tbody {
+                        > tr {
+
+                            > td {
+                                display: flex;
+                                width: 100%;
+                                border: none;
+
+                                > .title {
+                                    display: block;
+                                    width: 30%;
+                                    border: none;
+                                    text-align: right;
+                                    margin-right: 15px;
+                                }
+
+                                > .value {
+                                    display: block;
+                                    width: 70%;
+                                    border: none;
+                                }
+
+                                + td > .value,
+                                + td > .title {
+                                    border-left: none;
+                                }
+
+                                &:last-child {
+                                    border-bottom: 1px solid #ccc;
+                                }
+
+                                &:last-child,
+                                &:first-child {
+                                    padding: 1.2rem 1.5rem;
+                                }
+
+                                > .buttons {
+                                    text-align: left;
+                                }
+
+                            }
+
+                            &:last-child > td:last-child {
+                                border-bottom: none;
+                            }
+
+                        }
+                    }
+                }
+            }
+
         }
 
-        :scope > table * {
-            box-sizing: border-box;
-        }
-
-        :scope tbody .button {
-            height: 3rem;
-            line-height: 3rem;
-            padding: 0 10px;
-        }
-
-        :scope tr > td.empty-result {
-            text-align: center;
-        }
-
-        :scope td > .title {
-            display: none;
-        }
-
-        @media (max-width: 50.0rem) {
-            :scope table > thead {
-                display: none;
-            }
-
-            :scope > table > tbody > tr > td {
-                display: flex;
-                width: 100%;
-                border: none;
-            }
-
-            :scope > table > tbody > tr > td > .title {
-                display: block;
-                width: 30%;
-                border: none;
-                text-align: right;
-                margin-right: 15px;
-            }
-
-            :scope > table > tbody > tr > td > .value {
-                display: block;
-                width: 70%;
-                border: none;
-            }
-
-            :scope > table > tbody > tr > td + td > .value,
-            :scope > table > tbody > tr > td + td > .title {
-                border-left: none;
-            }
-
-            :scope > table > tbody > tr > td:last-child {
-                border-bottom: 1px solid #ccc;
-            }
-
-            :scope > table > tbody > tr:last-child > td:last-child {
-                border-bottom: none;
-            }
-
-            :scope > table td:last-child,
-            :scope > table td:first-child {
-                padding: 1.2rem 1.5rem;
-            }
-
-            :scope td .buttons {
-                text-align: left;
-            }
-
-        }
 
     </style>
 
