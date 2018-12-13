@@ -1,3 +1,5 @@
+import numeral from 'numeral';
+
 <app-products>
     <table>
         <thead>
@@ -125,6 +127,8 @@
         this.handleDeleteClick = (e) => {
             opts.ondeleteclick(e.item);
         }
+
+        this.numeral = numeral;
 
         this.on('mount', () => {
             const showUpdateButton = typeof opts.oneditclick === 'function';

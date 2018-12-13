@@ -1,3 +1,6 @@
+import messageObservable from '../components/message';
+import '../components/loading.tag';
+
 <app-product-delete-route>
     <h2>Remover produto</h2>
     <fieldset if={!loading}>
@@ -19,10 +22,10 @@
             fetch(`/api/products/${this.uuid}`, { method: 'DELETE' })
                 .then(response => {
                     if(response.status < 300) {
-                        window.ibpms.message.dispatch('Produto removido com sucesso');
+                        messageObservable.next('Produto removido com sucesso');
                         route('/');
                     } else {
-                        response.json().then(error => window.ibpms.message.dispatch(error.message));
+                        response.json().then(error => messageObservable.next(error.message));
                     }
                 })
                 .finally(() => {
@@ -43,7 +46,7 @@
                             this.update({product});
                         })
                     } else {
-                        response.json().then(error => window.ibpms.message.dispatch(error.message));
+                        response.json().then(error => messageObservable.next(error.message));
                         route('/');
                     }
                 })

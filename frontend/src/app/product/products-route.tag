@@ -1,3 +1,9 @@
+import messageObservable from '../components/message';
+import '../components/loading.tag';
+import '../components/paginator.tag';
+import './products-filter.tag';
+import './products.tag';
+
 <app-products-route>
 
     <h2>Produtos</h2>
@@ -50,7 +56,7 @@
                             this.update({products, count});
                         });
                     } else {
-                        response.json().then(error => window.ibpms.message.dispatch(error.message));
+                        response.json().then(error => messageObservable.next(error.message));
                         route('/');
                     }
                 })

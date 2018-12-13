@@ -1,3 +1,7 @@
+import './layout/layout.tag';
+import './components/message.tag';
+import './routes.tag';
+
 <app>
 
     <app-layout>

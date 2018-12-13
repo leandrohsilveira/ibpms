@@ -1,3 +1,7 @@
+import messageObservable from '../components/message';
+import '../components/loading.tag';
+import './product-form.tag';
+
 <app-product-update-route>
     <h2>Atualizar produto</h2>
     <app-product-form loading={loading} onproductsubmit={handleSubmit} oncancel={cancel} product={product} />
@@ -18,10 +22,10 @@
             })
             .then(response => {
                 if(response.status < 300) {
-                    window.ibpms.message.dispatch('Produto atualizado com sucesso');
+                    messageObservable.next('Produto atualizado com sucesso');
                     route('/');
                 } else {
-                    response.json().then(error => window.ibpms.message.dispatch(error.message));
+                    response.json().then(error => messageObservable.next(error.message));
                 }
             })
             .finally(() => {
@@ -42,7 +46,7 @@
                             this.update({product});
                         });
                     } else {
-                        response.json().then(error => window.ibpms.message.dispatch(error.message));
+                        response.json().then(error => messageObservable.next(error.message));
                         route('/');
                     }
                 })

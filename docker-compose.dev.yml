@@ -2,6 +2,9 @@ version: "3"
 
 services:
   frontend:
+    build: 
+      context: ./frontend
+      dockerfile: docker/dev/Dockerfile
     volumes:
-      - ./frontend/public:/usr/share/nginx/html
+      - ./frontend:/home/app
 

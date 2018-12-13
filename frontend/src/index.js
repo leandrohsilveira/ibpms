@@ -5,13 +5,18 @@ import numeral from 'numeral';
 import './polyfills';
 
 import 'numeral/locales/pt-br.js';
-import 'milligram/dist/milligram.min.css';
 import 'normalize.css/normalize.css';
+import 'milligram/dist/milligram.css';
 
 import './app/app.tag';
 
-numeral.locale('pt-br');
-
-riot.mount('*');
-
-route.base('/');
+document.addEventListener('DOMContentLoaded', () => {
+    var g = window || global;
+    g.route = riotRoute.default;
+    
+    numeral.locale('pt-br');
+    
+    riot.mount('*');
+    
+    g.route.base('/');
+});

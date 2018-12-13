@@ -1,3 +1,9 @@
+import 'riot-route/lib/tag';
+import './product/products-route.tag';
+import './product/product-create-route.tag';
+import './product/product-update-route.tag';
+import './product/product-delete-route.tag';
+
 <app-routes>
     <router>
         <route path=""><app-products-route /></route>

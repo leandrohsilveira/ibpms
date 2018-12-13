@@ -1,3 +1,7 @@
+import messageObservable from '../components/message';
+import '../components/loading.tag';
+import './product-form.tag';
+
 <app-product-create-route>
     <h2>Cadastrar produto</h2>
     <app-product-form loading={loading} onproductsubmit={handleSubmit} oncancel={cancel} />
@@ -16,10 +20,10 @@
             })
             .then(response => {
                 if(response.status < 300) {
-                    window.ibpms.message.dispatch('Produto cadastrado com sucesso');
+                    messageObservable.next('Produto cadastrado com sucesso');
                     route('/');
                 } else {
-                    response.json().then(error => window.ibpms.message.dispatch(error.message));
+                    response.json().then(error => messageObservable.next(error.message));
                 }
             })
             .finally(() => {

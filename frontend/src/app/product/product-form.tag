@@ -1,5 +1,6 @@
 import SimpleMaskMoney from 'simple-mask-money';
 import maskConfig from '../config/mask';
+import numeral from 'numeral';
 
 <app-product-form>
 
@@ -49,6 +50,8 @@ import maskConfig from '../config/mask';
     <script>
         this.errors = {};
         this.maskedPriceRef = null;
+
+        this.numeral = numeral;
 
         this.handleSubmit = (e) => {
             e.preventDefault();
