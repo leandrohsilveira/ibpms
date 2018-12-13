@@ -5,12 +5,12 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractCSS = new ExtractTextPlugin('[name].bundle.css');
 
-module.exports = {
+module.exports = (env) => ({
     context: path.resolve(__dirname, 'src'),
     entry: {
         app: './index.js',
     },
-    mode: 'development',
+    mode: env.STAGE,
     output: {
         path: path.resolve(__dirname, 'public'),
     },
@@ -63,4 +63,4 @@ module.exports = {
             },
         ]
     }
-}
+});
