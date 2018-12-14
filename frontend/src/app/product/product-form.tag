@@ -1,28 +1,37 @@
-import SimpleMaskMoney from 'simple-mask-money';
-import maskConfig from '../config/mask';
 import numeral from 'numeral';
+
+import '../components/input.tag';
 
 <app-product-form>
 
     <form onsubmit={handleSubmit}>
         <fieldset>
-            <div class={'field': true, 'error': !!errors.code}>
-                <label for="code">Código</label>
-                <input type="text" name="code" ref="code" value={opts.product && opts.product.code}>
-                <span if={!!errors.code} class="msg">{errors.code}</span>
-            </div>
-
-            <div class={'field': true, 'error': !!errors.name}>
-                <label for="name">Nome</label>
-                <input type="text" name="name" ref="name" value={opts.product && opts.product.name}>
-                <span if={!!errors.name} class="msg">{errors.name}</span>
-            </div>
-
-            <div class={'field': true, 'error': !!errors.price}>
-                <label for="name">Preço</label>
-                <input type="text" name="price" ref="price" class="input-money-mask" inputmode="numeric" value={numeral((opts.product && opts.product.price) || 0).format('0,0.00')}>
-                <span if={!!errors.price} class="msg">{errors.price}</span>
-            </div>
+            <app-input 
+                ref="code" 
+                type="text" 
+                name="code" 
+                label="Código" 
+                required
+                initialvalue={opts.product && opts.product.code} 
+            />
+            <app-input 
+                ref="name" 
+                type="text" 
+                name="name" 
+                label="Nome"
+                required
+                initialvalue={opts.product && opts.product.name} 
+            />
+            <app-input 
+                ref="price"
+                type="text" 
+                label="Preço" 
+                name="price" 
+                money
+                required
+                inputmode="numeric" 
+                initialvalue={formatProductPrice(opts.product)} 
+            />
 
             <div class="buttons">
                 <button disabled={opts.loading} type="submit">{opts.product ? 'Atualizar' : 'Cadastrar'}</button>
@@ -31,41 +40,25 @@ import numeral from 'numeral';
         </fieldset>
     </form>
 
-    <style>
-        :scope .field.error {
-            color: red;
-        }
-
-        :scope .field.error > input {
-            color: red;
-            border-color: red;
-            margin-bottom: 5px;
-        }
-
-        :scope .field > .msg {
-            margin-bottom: 10px;
-        }
-    </style>
-
     <script>
-        this.errors = {};
-        this.maskedPriceRef = null;
+        this.formatProductPrice = (product) => {
+            return numeral((product && product.price) || 0).format('0,0.00')
+        };
 
-        this.numeral = numeral;
+        this.isFormValid = () => {
+            return this.refs.code.valid && this.refs.name.valid && this.refs.price.valid
+        }
 
         this.handleSubmit = (e) => {
             e.preventDefault();
             if(!opts.loading) {
-                const errors = {};
-                const code = this.refs.code.value;
-                const name = this.refs.name.value;
-                const price = this.maskedPriceRef.formatToNumber();
-                if(!code) errors['code'] = 'Campo obrigatório';
-                if(!name) errors['name'] = 'Campo obrigatório';
-                if(!price) errors['price'] = 'Campo obrigatório';
-                if(Object.keys(errors).length) {
-                    this.update({errors});
-                } else if(typeof opts.onproductsubmit === 'function') {
+                this.refs.code.validate();
+                this.refs.name.validate();
+                this.refs.price.validate()
+                if(this.isFormValid()) {
+                    const code = this.refs.code.value;
+                    const name = this.refs.name.value;
+                    const price = +this.refs.price.value;
                     opts.onproductsubmit({
                         code,
                         name,
@@ -80,10 +73,6 @@ import numeral from 'numeral';
                 opts.oncancel();
             }
         };
-
-        this.on('mount', () => {
-            this.maskedPriceRef = SimpleMaskMoney.setMask('.input-money-mask', maskConfig);
-        });
 
     </script>
 </app-product-form>

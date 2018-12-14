@@ -23,6 +23,7 @@ module.exports = env => ({
   },
   devServer: {
     contentBase: path.resolve(__dirname, "public"),
+    historyApiFallback: true,
     port: 80,
     host: "0.0.0.0"
   },

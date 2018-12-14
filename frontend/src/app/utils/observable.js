@@ -11,6 +11,16 @@ function Observable(initialValue) {
         this.trigger('next', this.value);
     };
 
+    this.merge = (value) => {
+        if(typeof value === "function") {
+            this.next({...value(this.value)});
+        } else if(typeof this.value === 'object' && typeof value === 'object') {
+            this.next({...this.value, ...value});
+        } else {
+            this.next(value);
+        }
+    }
+
     this.subscribe = (instance, fn) => {
 
         instance.on('mount', () => {
