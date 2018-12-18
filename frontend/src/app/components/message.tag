@@ -71,14 +71,14 @@ import messageObservable from './message';
             messageObservable.next();
         }
 
-        messageObservable.subscribe(this, description => {
+        messageObservable.observe(this, description => {
             if(this.timeout) {
                 clearTimeout(this.timeout);
             }
-            this.update({
+            return {
                 description, 
                 timeout: description && setTimeout(() => this.handleDismissClick(), opts.dismissTime || 5000)
-            });
+            };
         });
 
 
